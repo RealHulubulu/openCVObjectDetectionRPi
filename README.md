@@ -67,9 +67,9 @@ text-based .pbtxt as discussed above.
 
 model = cv2.dnn.readNetFromTensorflow('frozen_inference_graph.pb', 'ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
 
+The code creates a log file for each run.
 
-
-References / Resources for more info:
+-References / Resources for more info-
 
 TFRecords and Protobuf
 https://halfbyte.io/33/

@@ -60,8 +60,6 @@ for i in range(2):
     model.setInput(cv2.dnn.blobFromImage(image, size=(300, 300), swapRB=True))
     output = model.forward()
     print(output[0,0,:,:].shape)
-    #nothing saved in first entry, then it reads rest of output array
-    #so it reads from detection[1] to detection[6]
     #print(output[0,0,:,:])
 
     listOfDetectedObjects = list()
@@ -107,12 +105,9 @@ for i in range(2):
     else:
         notify.send(json.dumps(notifySendString))
         f.write(capturedImage + ' , ' + json.dumps(notifySendString) + " \n")
-    #cv2.imshow('image', image)
+    
     cv2.imwrite('/home/pi/openCVData/ImagesWithBoxes/' + capturedImage + "withBoxes.jpeg",image)
 
-    #cv2.waitKey(0)
-    #cv2.destroyAllWindows()
-    
     sleep(10)
     #i+=1
 f.close()
