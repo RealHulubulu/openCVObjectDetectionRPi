@@ -12,11 +12,13 @@ how many objects there are. It sends notifications saved
 as text strings to a mobile phone. The notifications 
 contain the objects detected and the quantities of said 
 objects. The softwares within Python used for the actual
-object detection are OpenCV, MobileNet, and SSD. OpenCV ]
+object detection are OpenCV, MobileNet, and SSD. OpenCV 
 is the Open Source Computer Vision Library that has a 
 Python interface. MobileNet and SSD are combined to 
 handle the object recognition and are discussed further 
-in this readme. 
+in this readme. The combination is MobileNet-SSD and is
+the software behind how the data models are created and
+used.
 
 This project captures images using the standard Pi Camera 
 V2.1 and detects objects in the images using the OpenCV 
@@ -40,7 +42,8 @@ This is a project using OpenCV to detect objects trained
 on models using the coco data set. OpenCV is a library 
 that can be used in tandem with Tensorflow but also 
 without Tensorflow. OpenCV has its own Deep Neural 
-Network (DNN) that supplements the need for Tensorflow. 
+Network (DNN) that supplements the need for Tensorflow
+deep learning libraries that are hard for edge devices. 
 This project does not use Tensorflow as doing so is too 
 strenuous on the Pi. Tensorflow can be installed and used 
 within Raspbian but takes a lot of computing. Just using 
@@ -65,14 +68,19 @@ at the bottom of this readme.
 
 For the model, MobileNet-SSD v2 was used. It is used
 in the Heartbeat article as the suggested model due to
-its popularity. A discussion of what MobileNet and SSD
-can be found in the stack overflow article MobileNet vs
-SSD found at the bottom of this readme. MobileNet was
-created by Cornell, and the summary of the work can be 
-found at the bottom of this readme. SSD was created in
-a collaboration between UNC Chapel Hill, Zoox, Google,
-and University Michigan Ann-Arbor, and the paper about
-SSD can be found at the bottom of this readme.
+its popularity. MobileNet is a base network that handles
+the classification of objects within a model. SSD is the 
+detection network used. MobileNet has its own detection
+capability however by using SSD it can do multiple object
+detection instead of single object detection. A brief
+discussion of MobileNet and SSD can be found in the stack 
+overflow article MobileNet vs SSD found at the bottom of 
+this readme. MobileNet was created by Cornell, and the 
+summary of the work can be found at the bottom of this 
+readme. SSD was created in a collaboration between UNC 
+Chapel Hill, Zoox, Google, and University Michigan 
+Ann-Arbor, and the paper about SSD can be found at the 
+bottom of this readme.
 
 -Things in the code- 
 
