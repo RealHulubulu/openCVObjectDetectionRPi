@@ -67,7 +67,22 @@ text-based .pbtxt as discussed above.
 
 model = cv2.dnn.readNetFromTensorflow('frozen_inference_graph.pb', 'ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
 
-The code creates a log file for each run.
+The code creates a log file for each run. The format
+lists each picture taken (imag/imageWithBoxes) followd
+by a comma then a dictionary of each object detected
+with the number detected. If the number is below the
+threshold set (objectDict[key] < 5 in code) then
+after the number of objects is the a message
+(Running Low) in parenthesis. Below this line is a
+listing of each object detected with its percentage.
+Each log file captures all data per run of the script.
+The file itself is created at the start of the
+for/while loop that the main code is within. Each pass
+through the loop is recorded in the log file. If the 
+program crashes between loop iterations it can be
+detected in the log file. Also because the image
+file names are timestamps, you can know exactly when
+the process crashed. 
 
 -References / Resources for more info-
 

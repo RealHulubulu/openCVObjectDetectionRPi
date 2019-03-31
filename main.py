@@ -9,7 +9,7 @@ import json
 
 notify = Notify()
 currentTimeFile = datetime.now().strftime('%Y%m%d%H%M%S')
-f=open('/home/pi/openCVData/LogFiles/' + currentTimeFile + "Log.txt", "w+")
+#f=open('/home/pi/openCVData/LogFiles/' + currentTimeFile + "Log.txt", "a+") #changed to append from write
 # Pretrained classes in the model
 classNames = {0: 'background',
               1: 'person', 2: 'bicycle', 3: 'car', 4: 'motorcycle', 5: 'airplane', 6: 'bus',
@@ -42,11 +42,13 @@ model = cv2.dnn.readNetFromTensorflow('frozen_inference_graph.pb',
 ###
 camera = PiCamera()
 
-listOfDepletingItems = list() #should probably make this a set...
+setOfDepletingItems = set() #set
 #while True:
 for i in range(2):
     #i = 0 #this is for while loop instance to log iterations of loop
+    f=open('/home/pi/openCVData/LogFiles/' + currentTimeFile + "Log.txt", "a+") #changed to append from write
     currentTime = datetime.now().strftime('%Y%m%d%H%M%S')
+    camera.rotation = 180
     camera.start_preview()
     sleep(5)
     capturedImage = 'capturedImage' + str(currentTime) #creates filename with timestamp
@@ -61,16 +63,18 @@ for i in range(2):
     output = model.forward()
     print(output[0,0,:,:].shape)
     #print(output[0,0,:,:])
-
+    listOfObjectsForLog = list() #creates a list to print objects to log file
     listOfDetectedObjects = list()
     for detection in output[0, 0, :, :]:
         confidence = detection[2]
-        if confidence > .4:
+        if confidence > 0.4:
             class_id = detection[1]
             class_name=id_class_name(class_id,classNames)
             print(i)
             print(str(str(class_id) + " " + str(detection[2])  + " " + class_name))
             listOfDetectedObjects.append(class_name)
+            
+            listOfObjectsForLog.append(class_name + " - " + str(detection[2]))
             
             #notify.send('' + class_name)
             box_x = detection[3] * image_width
@@ -80,34 +84,37 @@ for i in range(2):
             cv2.rectangle(image, (int(box_x), int(box_y)), (int(box_width), int(box_height)), (23, 230, 210), thickness=1)
             cv2.putText(image,class_name ,(int(box_x), int(box_y+.05*image_height)),cv2.FONT_HERSHEY_SIMPLEX,(.005*image_width),(0, 0, 255))
 
-    objectDict = Counter(listOfDetectedObjects)
+    objectDict = Counter(listOfDetectedObjects) #dictionary with count of objects
     notifySendString = {}
     for key in objectDict:
         if objectDict[key] < 5: #threshold for replenishment message
-            notifySendString[key] = "Running Low, Remaining: " + str(objectDict[key])
-            listOfDepletingItems.append(key)
+            notifySendString[key] = str(objectDict[key]) + " (Running Low)" 
+            setOfDepletingItems.add(key)
         else:
-            notifySendString[key] = "Remaining: " + str(objectDict[key])
+            notifySendString[key] = str(objectDict[key])
             #check if item is in listofdepleting, remove from list
-            if key in listOfDepletingItems:
-                dummySet = set(listOfDepletingItems)
-                dummySet.remove(key)
-                listOfDepletingItems = list(dummySet)
+            if key in setOfDepletingItems:
+                #dummySet = set(listOfDepletingItems)
+                setOfDepletingItems.remove(key)
+                #listOfDepletingItems = list(dummySet)
                 
 
-    for item in listOfDepletingItems:
+    for item in setOfDepletingItems:
         if item not in list(objectDict.keys()):
             notifySendString[item] = "Out of: " + str(item)
 
     if not listOfDetectedObjects:
-        notify.send("Out of: " +str(set(listOfDepletingItems))) #prints Out of set() if starting with nothing
-        f.write(capturedImage + ' , ' + "Out of: " + str(set(listOfDepletingItems)) + " \n")
+        notify.send("Out of: " +str(setOfDepletingItems)) #prints Out of set() if starting with nothing
+        f.write(capturedImage + ' , ' + "{Out of: " + str(setOfDepletingItems) + "} \n")
     else:
         notify.send(json.dumps(notifySendString))
         f.write(capturedImage + ' , ' + json.dumps(notifySendString) + " \n")
     
+    for objectAndProb in listOfObjectsForLog:
+        f.write(objectAndProb + " \n")
+    f.close()
     cv2.imwrite('/home/pi/openCVData/ImagesWithBoxes/' + capturedImage + "withBoxes.jpeg",image)
 
     sleep(10)
     #i+=1
-f.close()
+#f.close()
