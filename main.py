@@ -8,12 +8,18 @@ import json
 
 #creates a notify object so notifications can be sent to phones/other devices
 notify = Notify()
-#this is the timestamp for saving the log file
+#this is the timestamp for saving the log file and calibration file
 currentTimeFile = datetime.now().strftime('%Y%m%d%H%M%S')
 #this creates camera object
 camera = PiCamera()
 #set to keep track of depleting items, also for outputing when objects run out
 setOfDepletingItems = set()
+
+runningThreshold = 0
+
+#below loads the model using the text-graph representation for OpenCV 
+model = cv2.dnn.readNetFromTensorflow('frozen_inference_graph.pb',
+                                      'ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
 
 #pretrained classes in the model
 classNames = {0: 'background',
@@ -40,11 +46,128 @@ def id_class_name(class_id, classes):
         if class_id == key:
             return value
 
+#calibrates the threshold based on current environment settings like lighting
+def calibrateThreshold():
+    f=open('/home/pi/openCVData/CalibrationFiles/' + currentTimeFile + "Log.txt", "a+") #changed to append from write
+    currentTime = datetime.now().strftime('%Y%m%d%H%M%S')
+    camera.rotation = 180
+    camera.start_preview()
+    sleep(5)
+    #this needs to capture an image with a known object count
+    capturedImage = 'capturedImage' + str(currentTime) #creates filename with timestamp
+    camera.capture('/home/pi/openCVData/CalibrationFiles/' + currentTimeFile + 'ForCalibration.jpeg')
+    f.write('Calibrate Image: /home/pi/openCVData/CalibrationFiles/' + currentTimeFile + 'ForCalibration.jpeg\n')
+    camera.stop_preview()
+    
+    #need to know the exact object count
+    print("----Calibrating----")
+    inputBoolean = 0
+    inputObjectWithCount = {}
+    while inputBoolean == 0:
+        objectBeingCounted = str(input("What object is being counted?: "))
+        objectBeingCounted = objectBeingCounted.lower()
+        f.write("Object used for calibration: " + objectBeingCounted + "\n")       
+        realCountForCalibration = int(input("How many " +objectBeingCounted+  " are there actually?: "))
+        f.write("Number of " +objectBeingCounted + ": " + str(realCountForCalibration) + "\n")
+        realCountForCalibration = int(realCountForCalibration)
+        inputObjectWithCount[objectBeingCounted] = realCountForCalibration
+        moreObjects = input("Are there more objects [y/n]?: ")
+        if moreObjects.lower() == 'n':
+            inputBoolean = 1
+        
+    image = cv2.imread('/home/pi/openCVData/CalibrationFiles/' +currentTimeFile + "ForCalibration.jpeg")
+    image_height, image_width, _ = image.shape
+    model.setInput(cv2.dnn.blobFromImage(image, size=(300, 300), swapRB=True))
+    output = model.forward()
+    x = 0
+    actualObjectNumber = len(inputObjectWithCount.keys())
+    objectAndPercent = list()
+    #print(actualObjectNumber)
+    testingConfidence = .9
+    iterationNumber = 1
+    print("Calibrating each object...")
+    f.write("Calibrating each object...\n")
+    while x == 0:
+        print("Iteration: " + str(iterationNumber))
+        f.write("Iteration: " + str(iterationNumber)+ "\n")
+        listOfDetected = list()
+        for detection in output[0, 0, :, :]:
+            confidence = detection[2]
+            if confidence > testingConfidence:
+                class_id = detection[1]
+                class_name=id_class_name(class_id,classNames)
+                listOfDetected.append(class_name)
+                if len(listOfDetected) == 0:
+                    print("Nothing detected")
+                    f.write("Nothing detected\n")
+                else:
+                    print("Object detected")
+                    print(str(str(class_id) + " " + str(detection[2])  + " " + class_name))
+                    f.write("Object detected\n"
+                            + str(class_id) + " " + str(detection[2])  + " " + class_name + "\n")
+                #objectAndPercent.append(class_name + ", " + str(confidence))
+        #print(x) #prints infinite 0s       
+        objectCount = Counter(listOfDetected)
+        """FOUND PROBLEM!!! the below print objectCount prints Counter(), not dict"""
+        #print(objectCount) 
+        #if len(inputObjectWithCount.keys()) > 0:
+        """some reason never reaches below, the print x below loops inf tho,
+        for loop not reached, i think because dict format?"""
+        #print(inputObjectWithCount) #infinitely prints, does print dict with person : 1
+        #print(listOfDetected)
+        if actualObjectNumber == 0:
+            print("Final threshold: " + str(testingConfidence))
+            f.write("Final threshold: " + str(testingConfidence) + "\n")
+            return float(testingConfidence)
+            x = 1
+            break
+        #print(x) #infinitely printed
+        elif len(listOfDetected) == 0:
+            print("Threshold too high for any object. Threshold -.05")
+            f.write("Threshold too high for any object. Threshold -.05\n")
+            testingConfidence -= .05
+        else: #for loop below not reached, no clue why
+            #print("hi")
+            for key in inputObjectWithCount: #.keys()
+                if key in objectCount: #.keys()
+                    numberCountedByCamera = int(objectCount[key])
+                    #print(numberCountedByCamera)
+                    if numberCountedByCamera < inputObjectWithCount[key]:
+                        print("Threshold too high for " +key+  ". Threshold -.05")
+                        f.write("Threshold too high for " +key+  ". Threshold -.05\n")
+                        testingConfidence -= .05
+                    elif numberCountedByCamera > inputObjectWithCount[key]:
+                        print("Threshold too low for " +key+  ". Threshold +.01")
+                        f.write("Threshold too low for " +key+  ". Threshold +.01\n")
+                        testingConfidence += .01
+                    else:
+                        print("Camera has correct count of " + key)
+                        print("Calibration for " + key + " has threshold: " + str(testingConfidence))
+                        f.write("Camera has correct count of " + key + "\n" +
+                                "Calibration for " + key + " has threshold: " + str(testingConfidence)+ "\n")
+                        actualObjectNumber -= 1
+        if testingConfidence <= 0:
+            print("Testing Confidence <= 0. Ending script")
+            f.write("Testing Confidence <= 0. Ending script\n")
+            exit()
+        iterationNumber += 1
+        #this subtraction is to handle error for detecting objects not tested (75% of threshold)
+        testingConfidence = testingConfidence - (testingConfidence*.25)
+        #return float(testingConfidence)
+    #have it run analysis again using final threshold
+    #final threshold should be lowest
+    #some cases may have too low threshold where another object gets over counted
 
-#below loads the model using the text-graph representation for OpenCV 
-model = cv2.dnn.readNetFromTensorflow('frozen_inference_graph.pb',
-                                      'ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
-
+testingConf = calibrateThreshold()
+sleep(10)
+print()
+userCalibration = input("Use the calibration threshold: "+ str(testingConf)+"? [y/n] ")
+if userCalibration.lower() == "y":
+    runningThreshold = testingConf
+else:
+    runningThreshold = 0.4
+    
+    
 #the loop below is the bulk of the code, while True is for running continuous, for for fixed time
 #i is updated in for loop but needs to be += for while loop, code is commented out below
 #while True:
@@ -69,7 +192,8 @@ for i in range(2):
     listOfDetectedObjects = list()
     for detection in output[0, 0, :, :]:
         confidence = detection[2]
-        if confidence > 0.4:
+        if confidence > runningThreshold:
+        #if confidence > 0.4:
             class_id = detection[1]
             class_name=id_class_name(class_id,classNames)
             #this just keeps track of which iteration of the loop the objects were detected in
@@ -99,6 +223,7 @@ for i in range(2):
         else:
             notifySendString[key] = str(objectDict[key])
             #below removes item from setOfDepletingItems as it is above threshold
+            if key in setOfDepletingItems:
                 setOfDepletingItems.remove(key)
                 
     #below checks if item was detected but has run out, adds it to output dictionary           
