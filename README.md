@@ -84,12 +84,25 @@ bottom of this readme.
 
 -Things in the code- 
 
+The code is broken into a very readable file structure.
+Originally the project was one lengthy .py file that
+was harder to follow. Now, there is a main,
+calibration, objectDetection, and objectIdToName file.
+Each file is modular for easy use. There are comments
+in each to inform how to use each file. Additionally,
+there is a file sampleOfConsoleOutput.txt that shows
+a sample output in console for this project. The only
+particular thing is the yes or no input for both the
+calibration and objectDetection file. Look at code
+for details as it doesn't do input error handling.
+
 The classNames file lists out all of the objects 
 pre-trained in the MobileNet-SSD v2 model found in the 
 documentation for the TensorFlow Object Detection API. 
 The model has the recognized objects stored by numbers 
 from 1 to 90 but doesn’t have the names of the objects. 
-Hence the listing out of the objects in a dictionary. 
+Hence the listing out of the objects in a dictionary.
+The objects are from the COCO Data Set. 
 
 The following line of code is the model created using 
 OpenCV from the pre-trained .pb and it’s associated 
@@ -113,6 +126,11 @@ program crashes between loop iterations it can be
 detected in the log file. Also because the image
 file names are timestamps, you can know exactly when
 the process crashed.
+
+There is also a log file made for calibration. It saves
+the images with the same naming as the log files for 
+object detection. The log also has all the console 
+output/actions taken by the calibration.
 
 Notifications are sent out using notify_run. Info
 on notify_run can be found at the bottom of this 

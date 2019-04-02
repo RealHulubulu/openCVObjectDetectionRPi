@@ -1,0 +1,30 @@
+----Calibrating----
+What object is being counted?: person
+How many person are there actually?: 1
+Are there more objects [y/n]?: n
+Calibrating each object...
+Iteration: 1
+Threshold too high for any object. Threshold -.05
+Iteration: 2
+Threshold too high for any object. Threshold -.05
+Iteration: 3
+Threshold too high for any object. Threshold -.05
+Iteration: 4
+Threshold too high for any object. Threshold -.05
+Iteration: 5
+Threshold too high for any object. Threshold -.05
+Iteration: 6
+Threshold too high for any object. Threshold -.05
+Iteration: 7
+Object detected
+1.0 0.61385024 person
+Camera has correct count of person
+Calibration for person has threshold: 0.5999999999999998
+Final threshold (70% of lowest object threshold): 0.4199999999999998
+0.4199999999999998
+----Object Detction----
+Use the calibration threshold: 0.4199999999999998? [y/n] y
+Iteration: 0
+1.0 0.83969074 person
+Iteration: 1
+1.0 0.8796919 person
