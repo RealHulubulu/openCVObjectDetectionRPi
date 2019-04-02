@@ -96,6 +96,14 @@ particular thing is the yes or no input for both the
 calibration and objectDetection file. Look at code
 for details as it doesn't do input error handling.
 
+When running the object detection portion of the code
+found within the objectDetection.py file, it currently
+just runs twice within a for loop. There is commented
+out code for a while loop that runs continuously. You
+can also make the code run for however long you wish.
+The two iteration for loop is the simplest example of
+use for our inventory management idea. 
+
 The classNames file lists out all of the objects 
 pre-trained in the MobileNet-SSD v2 model found in the 
 documentation for the TensorFlow Object Detection API. 
@@ -112,11 +120,11 @@ text-based .pbtxt as discussed above.
 model = cv2.dnn.readNetFromTensorflow('frozen_inference_graph.pb', 'ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
 
 The code creates a log file for each run. The format
-lists each picture taken (imag/imageWithBoxes) followd
+lists each picture taken (imag/imageWithBoxes) followed
 by a comma then a dictionary of each object detected
 with the number detected. If the number is below the
 threshold set (objectDict[key] < 5 in code) then
-after the number of objects is the a message
+after the number of objects is a message that says
 (Running Low) in parenthesis. Below this line is a
 listing of each object detected with its percentage.
 Each log file captures all data per run of the script.
