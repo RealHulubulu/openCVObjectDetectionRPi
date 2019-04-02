@@ -26,7 +26,7 @@ def objectDetection(thresholdConfidence):
     """Takes in a confidence between 0 and 1. At start of function, user
     prompted to use inputed confidence or default of 0.4 if user selects
     not to use the inputed confidence"""
-    print("----Object Detction----")
+    print("----Object Detection----")
     userCalibration = input("Use the calibration threshold: "+ str(thresholdConfidence)+"? [y/n] ")
     if userCalibration.lower() == "y":
         runningThreshold = thresholdConfidence

@@ -102,7 +102,8 @@ documentation for the TensorFlow Object Detection API.
 The model has the recognized objects stored by numbers 
 from 1 to 90 but doesn’t have the names of the objects. 
 Hence the listing out of the objects in a dictionary.
-The objects are from the COCO Data Set. 
+The objects are from the COCO Data Set. Find a link
+to COCO data set at the bottom of this readme.
 
 The following line of code is the model created using 
 OpenCV from the pre-trained .pb and it’s associated 
@@ -147,6 +148,9 @@ devices registered on the channel can see messages
 sent over it.
 
 -References / Resources for more info-
+
+COCO Data Set
+http://cocodataset.org/
 
 OpenCV website and PyPI page
 https://opencv.org/
