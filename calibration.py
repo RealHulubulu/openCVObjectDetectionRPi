@@ -73,6 +73,7 @@ def calibrateThreshold():
     print("Calibrating each object...")
     f.write("Calibrating each object...\n")
     #this does the calibration
+    alreadyCalibrated = list()
     while whileLoop == 0:
         #this checks for exit condition of all input objects being detected
         if actualObjectNumber == 0:
@@ -90,7 +91,8 @@ def calibrateThreshold():
             if confidence > testingConfidence:
                 class_id = detection[1]
                 class_name=objectIdToName.id_class_name(class_id,objectIdToName.getClassNames())
-                listOfDetected.append(class_name)
+                if class_name not in alreadyCalibrated:
+                    listOfDetected.append(class_name)
                 #this is for when object is detected and prints object and percentage confidence
                 print("Object detected")
                 print(str(str(class_id) + " " + str(detection[2])  + " " + class_name))
@@ -100,8 +102,8 @@ def calibrateThreshold():
         objectCount = Counter(listOfDetected)
         #this is for when threshold is too high and no input objects are detected
         if len(listOfDetected) == 0:
-            print("Threshold too high for any object. Threshold -.05")
-            f.write("Threshold too high for any object. Threshold -.05\n")
+            print("Threshold too high for object. Threshold -.05")
+            f.write("Threshold too high for object. Threshold -.05\n")
             testingConfidence -= .05
         #this is where the threshold is changed based on input objects being detected
         else: 
@@ -124,6 +126,7 @@ def calibrateThreshold():
                         print("Calibration for " + key + " has threshold: " + str(testingConfidence))
                         f.write("Camera has correct count of " + key + "\n" +
                                 "Calibration for " + key + " has threshold: " + str(testingConfidence)+ "\n")
+                        alreadyCalibrated.append(key)
                         #this reduces for each object (key) that is calibrated
                         actualObjectNumber -= 1
         

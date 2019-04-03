@@ -11,6 +11,5 @@ import objectIdToName
 
 calibratedThreshold = calibration.calibrateThreshold()
 
-print(str(calibratedThreshold))
 objectDetection.objectDetection(calibratedThreshold)
 
