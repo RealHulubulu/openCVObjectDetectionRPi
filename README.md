@@ -6,7 +6,8 @@ Linda Vu - Kennesaw State University,
 Rachel Wendel - Kennesaw State University,
 
 ######################################################
-Updates:
+
+-Updates-
 
 4/7/2019
 First official logged update! Many changes made since 
@@ -51,6 +52,7 @@ mentioned above.
 *Some changes above have been added into the readme 
 below. Only really things relating to understanding the
 project itself.
+
 ######################################################
 
 -General project description and info on OpenCV DNN-
