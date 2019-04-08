@@ -1,9 +1,9 @@
 # OpenCV Object Detection without Tensorflow on Raspberry Pi
 
 Authors: 
-Daniel Karasek (primary) - Kennesaw State University
-Linda Vu - Kennesaw State University
-Rachel Wendel - Kennesaw State University
+Daniel Karasek (primary) - Kennesaw State University,
+Linda Vu - Kennesaw State University,
+Rachel Wendel - Kennesaw State University,
 
 ######################################################
 Updates:
