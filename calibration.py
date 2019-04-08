@@ -15,6 +15,11 @@ camera = PiCamera()
 model = cv2.dnn.readNetFromTensorflow('frozen_inference_graph.pb',
                                       'ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
 
+#for sending calibration as only object(s) to notification
+onlyThisObject = list()
+def getOnlyThisObject():
+    return onlyThisObject
+
 #this is to call the camera in objectDetection.py file
 def getCamera():
     return camera
@@ -27,6 +32,7 @@ def calibrateThreshold():
     #this creates log file for calibration
     f=open('/home/pi/openCVData/CalibrationFiles/' + currentTimeFile + "Log.txt", "a+") #changed to append from write
     
+    #this is the camera code, 5 seconds is to balance image before taking picture
     currentTime = datetime.now().strftime('%Y%m%d%H%M%S')
     camera.rotation = 180
     camera.start_preview()
@@ -46,6 +52,9 @@ def calibrateThreshold():
         #this is the object(s) in image for calibration
         objectBeingCounted = str(input("What object is being counted?: "))
         objectBeingCounted = objectBeingCounted.lower()
+        
+        onlyThisObject.append(objectBeingCounted) ###
+        
         f.write("Object used for calibration: " + objectBeingCounted + "\n")
         #this is the count of object(s) in image for calibration
         realCountForCalibration = int(input("How many " +objectBeingCounted+  " are there actually?: "))
@@ -54,7 +63,7 @@ def calibrateThreshold():
         #this is the dictionary of all test objects with their counts
         inputObjectWithCount[objectBeingCounted] = realCountForCalibration
         #this is for inputing more than one object for calibration
-        #recommend limitting how many objects are used for calibration to one or two
+        #recommend limitting how many objects are used for calibration to one, maybe two
         moreObjects = input("Are there more objects [y/n]?: ")
         if moreObjects.lower() == 'n':
             inputBoolean = 1
@@ -67,7 +76,6 @@ def calibrateThreshold():
     
     whileLoop = 0
     actualObjectNumber = len(inputObjectWithCount.keys())
-    #objectAndPercent = list()
     testingConfidence = 0.9
     iterationNumber = 1
     print("Calibrating each object...")
@@ -77,9 +85,11 @@ def calibrateThreshold():
     while whileLoop == 0:
         #this checks for exit condition of all input objects being detected
         if actualObjectNumber == 0:
-            testingConfidence = testingConfidence*.70
-            print("Final threshold (70% of lowest object threshold): " + str(testingConfidence))
-            f.write("Final threshold (70% of lowest object threshold): " + str(testingConfidence) + "\n")
+            #this 35% variance is for detecting objects not tested (65% of threshold)
+            #this 35% is from observations, however an official survey of error may change this
+            testingConfidence = testingConfidence*.65
+            print("Final threshold (65% of lowest object threshold): " + str(testingConfidence))
+            f.write("Final threshold (65% of lowest object threshold): " + str(testingConfidence) + "\n")
             return float(testingConfidence)
             whileLoop = 1
         
@@ -92,7 +102,8 @@ def calibrateThreshold():
                 class_id = detection[1]
                 class_name=objectIdToName.id_class_name(class_id,objectIdToName.getClassNames())
                 if class_name not in alreadyCalibrated:
-                    listOfDetected.append(class_name)
+                    if class_name in inputObjectWithCount: #.keys() alternative
+                        listOfDetected.append(class_name)
                 #this is for when object is detected and prints object and percentage confidence
                 print("Object detected")
                 print(str(str(class_id) + " " + str(detection[2])  + " " + class_name))
@@ -137,7 +148,6 @@ def calibrateThreshold():
             exit()
         #this increments to keep track of loop iterations
         iterationNumber += 1
-        #this subtraction is to handle error for detecting objects not tested (70% of threshold)
-        #this 70% is from observations, however an official survey of error may change this
-        #testingConfidence = testingConfidence*.70
+        
+        
 

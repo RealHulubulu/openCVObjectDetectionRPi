@@ -1,5 +1,58 @@
 # OpenCV Object Detection without Tensorflow on Raspberry Pi
 
+Authors: 
+Daniel Karasek (primary) - Kennesaw State University
+Linda Vu - Kennesaw State University
+Rachel Wendel - Kennesaw State University
+
+######################################################
+Updates:
+
+4/7/2019
+First official logged update! Many changes made since 
+last commit. 
+
+*The code now handles double counting and false second 
+counting of objects. It looks at the bounding boxes of 
+each detected object and checks for overlap. 
+
+*The code now sends proper notifications when objects
+all are depleted and skip the depletion threshold 
+amount. For example, the objects go from 10 being
+counted to 0 being counted. Notification now reflects
+that said object is depleted.
+
+*The log files now record all objects that are 
+detected in each captured image. Before it would only
+list out the objects above threshold. Adding in a list
+of the output from openCV to log all things that are
+detected.
+
+*Calibration now adjusts for a 35% variance in its 
+threshold. Through some testing 30% was too low.
+
+*Did some testing of calibration and object detection
+code. Found out that where the items are in the image
+affects its calculated percentage. It has to do with
+how SSD works for detecting objects. Best advice is 
+to have objects close to the center of the image and
+have objects organized in some fashion. For example,
+detect donuts by using the box they came in. Found out
+some objects are harder to detect than others. Bananas 
+are a challenge if they have spots. Also, the objects
+you detect must be similar to objects trained on in 
+COCO dataset. For example, it does not count plastic
+forks only real metal forks.
+
+*In testing found out multiple object calibration does
+work but has issues with placement within the image as
+mentioned above.
+
+*Some changes above have been added into the readme 
+below. Only really things relating to understanding the
+project itself.
+######################################################
+
 -General project description and info on OpenCV DNN-
 
 The project runs on a Raspberry Pi 3b+. 
@@ -96,13 +149,21 @@ particular thing is the yes or no input for both the
 calibration and objectDetection file. Look at code
 for details as it doesn't do input error handling.
 
+The calibration portion of the code creates a
+detection threshold through an algorithm. If that 
+threshold is not used, a default threshold is then
+used instead. It is set to .2 in the code as that is
+a reasonable minimum threshold for our purposes. The 
+.2 eliminates many of the false positives that occur.
+
 When running the object detection portion of the code
 found within the objectDetection.py file, it currently
-just runs twice within a for loop. There is commented
-out code for a while loop that runs continuously. You
-can also make the code run for however long you wish.
-The two iteration for loop is the simplest example of
-use for our inventory management idea. 
+runs with a while loop for running continuously. 
+There is commented out code for a for loop that can be
+set with a certain amount of iterations for tests. A 
+two iteration for loop is the simplest example of use 
+for our inventory management idea as it can track 
+change in two different images.
 
 The classNames file lists out all of the objects 
 pre-trained in the MobileNet-SSD v2 model found in the 
@@ -136,10 +197,18 @@ detected in the log file. Also because the image
 file names are timestamps, you can know exactly when
 the process crashed.
 
-There is also a log file made for calibration. It saves
-the images with the same naming as the log files for 
-object detection. The log also has all the console 
-output/actions taken by the calibration.
+There is also a log file made for calibration. It
+first logs the threshold being used. Then it logs all
+of the objects detected in each image, which differs
+from what is registered as detected due to the 
+detection threshold set through calibration. Having
+all of the objects listed is important data to have.
+After the object list, it then lists name of the 
+image with a dictionary of all counted names with
+their respective item counts. This dictionary is the
+same thing sent as a notification over Notify-Run.
+The log then has all the console output of items 
+with detection percentage.
 
 Notifications are sent out using notify_run. Info
 on notify_run can be found at the bottom of this 

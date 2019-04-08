@@ -23,6 +23,8 @@ Calibration for person has threshold: 0.5999999999999998
 Final threshold (70% of lowest object threshold): 0.4199999999999998
 0.4199999999999998
 ----Object Detction----
+Default threshold 0.2 and will be set if not using calibration threshold
+Recommend using default for un-organized objects or multi-object calibration
 Use the calibration threshold: 0.4199999999999998? [y/n] y
 Iteration: 0
 1.0 0.83969074 person
