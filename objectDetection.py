@@ -7,6 +7,7 @@ from collections import Counter
 import json
 import objectIdToName
 import calibration
+import time
 
 #creates a notify object so notifications can be sent to phones/other devices
 notify = Notify()
@@ -73,6 +74,9 @@ def objectDetection(thresholdConfidence):
         overlapDetectedX2 = list() ###
         overlapDetectedY1 = list() ###
         overlapDetectedY2 = list() ###
+        
+        #start of timer for detection
+        start = time.time()
         #this is the loop that runs thgrough all objects detected
         for detection in output[0, 0, :, :]:
             confidence = detection[2]
@@ -122,7 +126,16 @@ def objectDetection(thresholdConfidence):
                     overlapDetectedY2.append(detection[6]) ###
                     #this is the openCV code that creates boxes with names
                     cv2.rectangle(image, (int(box_x), int(box_y)), (int(box_width), int(box_height)), (23, 230, 210), thickness=1)
-                    cv2.putText(image,class_name ,(int(box_x), int(box_y+.05*image_height)),cv2.FONT_HERSHEY_SIMPLEX,(.005*image_width),(0, 0, 255))
+                    cv2.putText(image,class_name + " " + str(round(confidence, 3)),(int(box_x), int(box_y+.05*image_height)),cv2.FONT_HERSHEY_SIMPLEX,(1),(0, 0, 255))
+        if not listOfDetectedObjects:
+            print("Iteration: " + str(i) + " ")
+            f.write("Iteration: " + str(i) + " ")
+        #end of timer for detection
+        end = time.time()
+        #prints detection time for all objects including false positives
+        print("Time to detect all objects above: " + str(end - start))
+        #writes to file the time to detect all objects including false positives
+        f.write("Time to detect all objects above: " + str(end - start) + "\n")
         #saves the image with detection boxes to specified folder /ImagesWithBoxes
         cv2.imwrite('/home/pi/openCVData/ImagesWithBoxes/' + capturedImage + "withBoxes.jpeg",image)
         
@@ -133,7 +146,7 @@ def objectDetection(thresholdConfidence):
         #this uses count of items to create output for notifications and files
         #if no objects detected, objectDict is empty and this code doesn't run
         for key in objectDict:
-            if objectDict[key] < 3: #threshold
+            if objectDict[key] < 5: #threshold
                 notifySendString[key] = str(objectDict[key]) + " (Running Low)" 
                 setOfDepletingItems.add(key)
                 #this is for when objects all get removed and skip above threshold

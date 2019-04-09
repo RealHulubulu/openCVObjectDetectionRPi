@@ -1,13 +1,48 @@
 # OpenCV Object Detection without Tensorflow on Raspberry Pi
 
 Authors: 
-Daniel Karasek (primary) - Kennesaw State University,
-Linda Vu - Kennesaw State University,
-Rachel Wendel - Kennesaw State University,
+
+Daniel Karasek (primary) - Kennesaw State University
+
+Linda Vu - Kennesaw State University
+
+Rachel Wendel - Kennesaw State University
 
 ######################################################
 
 -Updates-
+
+4/8/209
+Second official logged update!
+
+*The code now logs runtimes for calibration and object
+detection. Both are recorded in seconds. The runtimes 
+are also written to console.
+
+*The names of objects put in the boxes for the images
+that are labeled ...WithBoxes have been changed. The
+font size has been made smaller to better fit in the
+box for each respective object. Also, the rounded 
+detected percentage is printed next to the name of the
+object. Before the text was too large and would be 
+hard to read when multiple objects were being detected.
+
+*Regarding the fixed boxes, the sample images have been
+updated as well.
+
+*Fixed the issue with iterations not being logged when
+not objects were detected. Now all iterations are 
+logged in log file and in console.
+
+*Set object detection count threshold to 5 to better
+reflect what we have written for a paper on this 
+project.
+
+*We have submitted a draft of paper for this project.
+If we move to get it published, we will put a copy of
+it in this Github.
+
+------------------------------------------------------
 
 4/7/2019
 First official logged update! Many changes made since 

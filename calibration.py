@@ -6,6 +6,7 @@ from notify_run import Notify # https://notify.run/c/Hz16GGFB5LyehlRh
 from collections import Counter
 import json
 import objectIdToName
+import time
 
 #this is the timestamp for saving the log file and calibration file
 currentTimeFile = datetime.now().strftime('%Y%m%d%H%M%S')
@@ -82,6 +83,9 @@ def calibrateThreshold():
     f.write("Calibrating each object...\n")
     #this does the calibration
     alreadyCalibrated = list()
+    
+    #start of timer for calibration
+    start = time.time()
     while whileLoop == 0:
         #this checks for exit condition of all input objects being detected
         if actualObjectNumber == 0:
@@ -90,8 +94,16 @@ def calibrateThreshold():
             testingConfidence = testingConfidence*.65
             print("Final threshold (65% of lowest object threshold): " + str(testingConfidence))
             f.write("Final threshold (65% of lowest object threshold): " + str(testingConfidence) + "\n")
+            
+            #end of timer for calibration
+            end = time.time()
+            #prints time to do calibration
+            print("Time to do calibration: " + str(end - start))
+            #writes to file time it takes for calibration
+            f.write("Time to do calibration: " + str(end - start) + "\n")
+            
             return float(testingConfidence)
-            whileLoop = 1
+            #whileLoop = 1 #this is if you don't need a return value
         
         print("Iteration: " + str(iterationNumber))
         f.write("Iteration: " + str(iterationNumber)+ "\n")
@@ -133,9 +145,9 @@ def calibrateThreshold():
                         testingConfidence += .01
                     #this is for correct count of input objects
                     else:
-                        print("Camera has correct count of " + key)
+                        print("Calibration has correct count of " + key)
                         print("Calibration for " + key + " has threshold: " + str(testingConfidence))
-                        f.write("Camera has correct count of " + key + "\n" +
+                        f.write("Calibration has correct count of " + key + "\n" +
                                 "Calibration for " + key + " has threshold: " + str(testingConfidence)+ "\n")
                         alreadyCalibrated.append(key)
                         #this reduces for each object (key) that is calibrated
@@ -148,6 +160,7 @@ def calibrateThreshold():
             exit()
         #this increments to keep track of loop iterations
         iterationNumber += 1
+    
         
         
 
