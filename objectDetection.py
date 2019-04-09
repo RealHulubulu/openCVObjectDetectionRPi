@@ -31,12 +31,18 @@ def objectDetection(thresholdConfidence):
     not to use the inputed confidence"""
     print("----Object Detection----")
     print("Default threshold 0.2 and will be set if not using calibration threshold")
-    print("Recommend using default for un-organized objects or multi-object calibration")
-    userCalibration = input("Use the calibration threshold: "+ str(thresholdConfidence)+"? [y/n] ")
-    if userCalibration.lower() == "y":
-        runningThreshold = thresholdConfidence
-    else:
-        runningThreshold = 0.2
+    print("Recommend using default 0.2 for un-organized objects or multi-object calibration")
+    userCalibration = ""
+    while userCalibration == "":
+        userCalibration = input("Use the calibration threshold: "+ str(thresholdConfidence)+"? [y/n] ")
+        if userCalibration.lower() == "y":
+            runningThreshold = thresholdConfidence
+        elif userCalibration.lower() == 'n':
+            runningThreshold = 0.2
+        else:
+            userCalibration = ""
+            print("Did not input y or n. Try again.")
+            
     """THIS IS WHERE TO MODIFY CODE FOR EITHER FOR LOOP FOR TESTING OR WHILE LOOP FOR DEPLOYMENT"""
     i = 1 #this is for while loop instance to log iterations of loop
     while True: #while loop
@@ -133,9 +139,9 @@ def objectDetection(thresholdConfidence):
         #end of timer for detection
         end = time.time()
         #prints detection time for all objects including false positives
-        print("Time to detect all objects above: " + str(end - start))
+        print("Time to detect all objects: " + str(end - start))
         #writes to file the time to detect all objects including false positives
-        f.write("Time to detect all objects above: " + str(end - start) + "\n")
+        f.write("Time to detect all objects: " + str(end - start) + "\n")
         #saves the image with detection boxes to specified folder /ImagesWithBoxes
         cv2.imwrite('/home/pi/openCVData/ImagesWithBoxes/' + capturedImage + "withBoxes.jpeg",image)
         

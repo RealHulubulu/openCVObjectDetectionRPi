@@ -12,6 +12,32 @@ Rachel Wendel - Kennesaw State University
 
 -Updates-
 
+4/9/2019
+Third official logged update!
+
+*Added in Google AI blog link as a reference.
+
+*Corrected the origin of Mobilenets as a Google project
+that was published at Cornell. 
+
+*Corrected some of the readme as well as added in some
+notes about some of the code including the algorithm 
+that handles detection box overlap. The corrections 
+were all on what portions of the code does.
+
+*Updated sample of log file and console output to have
+the runtime displayed.
+
+*Forgot to mention in the last update that the 
+notifications sent out from objectDetection now only
+track objects that are calibrated. All objects are
+recorded in log files to keep all data.
+
+*Added in user input error handling in calibration and 
+objectDetection code.
+
+------------------------------------------------------
+
 4/8/209
 Second official logged update!
 
@@ -160,17 +186,18 @@ For the model, MobileNet-SSD v2 was used. It is used
 in the Heartbeat article as the suggested model due to
 its popularity. MobileNet is a base network that handles
 the classification of objects within a model. SSD is the 
-detection network used. MobileNet has its own detection
-capability however by using SSD it can do multiple object
-detection instead of single object detection. A brief
+detection network used. MobileNet has its own
+classification capability however by using SSD it can do 
+object detection. A brief
 discussion of MobileNet and SSD can be found in the stack 
 overflow article MobileNet vs SSD found at the bottom of 
-this readme. MobileNet was created by Cornell, and the 
+this readme. MobileNet was created by Google, and the 
 summary of the work can be found at the bottom of this 
-readme. SSD was created in a collaboration between UNC 
-Chapel Hill, Zoox, Google, and University Michigan 
-Ann-Arbor, and the paper about SSD can be found at the 
-bottom of this readme.
+readme in the Google AI post and in the paper summary 
+published at Cornell. SSD was created in a collaboration 
+between UNC Chapel Hill, Zoox, Google, and University 
+Michigan Ann-Arbor, and the paper about SSD can be found 
+at the bottom of this readme.
 
 -Things in the code- 
 
@@ -202,6 +229,19 @@ two iteration for loop is the simplest example of use
 for our inventory management idea as it can track 
 change in two different images.
 
+Within the while loop is an algorithm that detects any
+bounding box overlap. False positives can show up even 
+with high detection thresholds. These false positives
+are double counts of an already detected object, with
+the double count either being a second count of that 
+object or a completely different object. For example,
+it may correctly detect a banana but double count the 
+banana or count it as a banana and an apple. The 
+algorithm looks for other bounding boxes that are 
+similar in position and shape to any exisitng boxes 
+and ignores them if so. This greatly reduced these
+false positive errors.
+
 The classNames file lists out all of the objects 
 pre-trained in the MobileNet-SSD v2 model found in the 
 documentation for the TensorFlow Object Detection API. 
@@ -217,13 +257,35 @@ text-based .pbtxt as discussed above.
 
 model = cv2.dnn.readNetFromTensorflow('frozen_inference_graph.pb', 'ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
 
-The code creates a log file for each run. The format
-lists each picture taken (imag/imageWithBoxes) followed
+Past calibration, each image is double saved as the raw
+image and as the image with bounding boxes. The images 
+with bounding boxes have labels that say what is 
+detected with a rounded detection percentage next to the
+label.
+
+The code creates a log file for each run. At the top is
+the detection threshold used. Then the next line lists
+out each picture taken (imag/imageWithBoxes) followed
 by a comma then a dictionary of each object detected
 with the number detected. If the number is below the
 threshold set (objectDict[key] < 5 in code) then
 after the number of objects is a message that says
-(Running Low) in parenthesis. Below this line is a
+(Running Low) in parenthesis. Next in the log is an
+array that shows all objects detected including false
+positives. The dimensions of the array are 100 rows by 7
+columns. The rows are for each object detected. It is 
+capped at 100. This is the from the output listed in the
+objectDetection code. The first entry for each row of
+the array is empty. The second entry is the object that
+is detected represented by its ID number. The third entry 
+is the detection percentage. The last four entries are 
+the bounding box X and Y coordinates for each object. 
+From this array, only objects above the calibrated 
+detection threshold and those objects selected for 
+calibration will be used in the code. However, it is 
+important to have a log of everything that is detected.
+Below the array is the runtime for detecting all objects
+found in the array in seconds. Below this line is a
 listing of each object detected with its percentage.
 Each log file captures all data per run of the script.
 The file itself is created at the start of the
@@ -234,21 +296,25 @@ detected in the log file. Also because the image
 file names are timestamps, you can know exactly when
 the process crashed.
 
-There is also a log file made for calibration. It
-first logs the threshold being used. Then it logs all
-of the objects detected in each image, which differs
-from what is registered as detected due to the 
-detection threshold set through calibration. Having
-all of the objects listed is important data to have.
-After the object list, it then lists name of the 
-image with a dictionary of all counted names with
-their respective item counts. This dictionary is the
-same thing sent as a notification over Notify-Run.
-The log then has all the console output of items 
-with detection percentage.
+There is also a log file made for calibration. It first
+lists the image used for calibration. Then it lists out
+each object used for calibration with the inputed count
+of objects that are in the calibration image. Following
+this it runs through iterations of calibration starting
+with a threshold of 0.9. For each iteration if it is 
+still missing objects that were inputed for calibration, 
+the threshold is reduced by .05. This repeats until all 
+objects are detected. There is no extra code here to 
+handle box overlap because those false positives are 
+only realized after all real objects are detected as 
+discovered through testing. If an iteration over counts
+the number of objects the threshold is increased by .01 
+until the correct number is reached. At the end of this 
+log is the runtime of calibration which is measured in
+seconds.
 
-Notifications are sent out using notify_run. Info
-on notify_run can be found at the bottom of this 
+Notifications are sent out using Notify-Run. Info
+on Notify-Run can be found at the bottom of this 
 readme. It is a library that is used to send
 notifications to devices registered on a channel.
 There is an issue with a channel not working after 
@@ -265,6 +331,9 @@ sent over it.
 
 COCO Data Set
 http://cocodataset.org/
+
+Google AI Blog Post Introducing Mobilenets
+https://ai.googleblog.com/2017/06/mobilenets-open-source-models-for.html
 
 OpenCV website and PyPI page
 https://opencv.org/

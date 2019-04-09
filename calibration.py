@@ -51,23 +51,35 @@ def calibrateThreshold():
     #this takes in the user input for calibration and writes it to log file
     while inputBoolean == 0:
         #this is the object(s) in image for calibration
-        objectBeingCounted = str(input("What object is being counted?: "))
+        objectBeingCounted = ""
+        while objectBeingCounted not in objectIdToName.getClassNames().values():
+            objectBeingCounted = str(input("What object is being counted?: "))
+            if objectBeingCounted not in objectIdToName.getClassNames().values():
+                print("Misspelled the object. Try again.")
         objectBeingCounted = objectBeingCounted.lower()
-        
+        #this is so that only calibrated objects are sent in notifications in objectDetection
         onlyThisObject.append(objectBeingCounted) ###
-        
         f.write("Object used for calibration: " + objectBeingCounted + "\n")
         #this is the count of object(s) in image for calibration
-        realCountForCalibration = int(input("How many " +objectBeingCounted+  " are there actually?: "))
-        f.write("Number of " +objectBeingCounted + ": " + str(realCountForCalibration) + "\n")
-        realCountForCalibration = int(realCountForCalibration)
+        realCountForCalibration = 0
+        while realCountForCalibration == 0:
+            try:
+                realCountForCalibration = int(input("How many " +objectBeingCounted+  " are there actually?: "))
+            except ValueError:
+                print("Not an integer. Try again.")
+        f.write("Number of " +objectBeingCounted + ": " + str(realCountForCalibration) + "\n")        
         #this is the dictionary of all test objects with their counts
         inputObjectWithCount[objectBeingCounted] = realCountForCalibration
         #this is for inputing more than one object for calibration
         #recommend limitting how many objects are used for calibration to one, maybe two
-        moreObjects = input("Are there more objects [y/n]?: ")
-        if moreObjects.lower() == 'n':
-            inputBoolean = 1
+        moreObjects = ""
+        while moreObjects == "":
+            moreObjects = input("Are there more objects [y/n]?: ")
+            if moreObjects.lower() == 'n':
+                inputBoolean = 1
+            elif moreObjects.lower() != 'y':
+                moreObjects = ""
+                print("Did not input y or n. Try again.")
     
     #this is where openCV reads in the image and does object detection
     image = cv2.imread('/home/pi/openCVData/CalibrationFiles/' +currentTimeFile + "ForCalibration.jpeg")
