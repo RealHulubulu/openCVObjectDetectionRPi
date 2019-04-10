@@ -38,7 +38,11 @@ track objects that are calibrated. All objects are
 recorded in log files to keep all data.
 
 *Added in user input error handling in calibration and 
-objectDetection code.
+objectDetection code. In the calibration code, if the
+user inputs the wrong object the user is asked if they
+want the list of detectable objects displayed. After 
+displaying the list, the user can then try to input an
+object again.
 
 ------------------------------------------------------
 
@@ -217,17 +221,31 @@ calibration, objectDetection, and objectIdToName file.
 Each file is modular for easy use. There are comments
 in each to inform how to use each file. Additionally,
 there is a file sampleOfConsoleOutput.txt that shows
-a sample output in console for this project. The only
-particular thing is the yes or no input for both the
-calibration and objectDetection file. Look at code
-for details as it doesn't do input error handling.
+a sample output in console for this project. .
+
+The calibration code starts off with taking a picture
+and uses that picture to calibrate the detection 
+threshold. This works by prompting for user input from
+the console. It first asks for what object is being
+calibrated for in the picture. The objects accepted are
+listed in the objectIDToName file. You can also list 
+out all of the detectable objects if the input is 
+incorrect. The assumption is made that the user knows
+what input is to be used for calibration. Then the user
+is prompted to enter in the number of the object being
+used for calibration. After this, the user is asked if
+more objects are being used for calibration. The 
+calibration code can take multiple objects as input for
+calibration. The suggestion is to use only one or two 
+objects.
 
 The calibration portion of the code creates a
 detection threshold through an algorithm. If that 
 threshold is not used, a default threshold is then
-used instead. It is set to .2 in the code as that is
-a reasonable minimum threshold for our purposes. The 
-.2 eliminates many of the false positives that occur.
+used instead. It is set to .2 in the objectDetection
+code as that is a reasonable minimum threshold for our 
+purposes. The .2 eliminates many of the false positives 
+that occur.
 
 When running the object detection portion of the code
 found within the objectDetection.py file, it currently

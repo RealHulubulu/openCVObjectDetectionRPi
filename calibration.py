@@ -55,7 +55,11 @@ def calibrateThreshold():
         while objectBeingCounted not in objectIdToName.getClassNames().values():
             objectBeingCounted = str(input("What object is being counted?: "))
             if objectBeingCounted not in objectIdToName.getClassNames().values():
-                print("Misspelled the object. Try again.")
+                displayClassNames = str(input("Misspelled the object. Display detectable object list? [y/any input for no]: "))
+                if displayClassNames == 'y':
+                    print(objectIdToName.getClassNames().values())
+                print("Try again.")
+                    
         objectBeingCounted = objectBeingCounted.lower()
         #this is so that only calibrated objects are sent in notifications in objectDetection
         onlyThisObject.append(objectBeingCounted) ###
@@ -74,7 +78,7 @@ def calibrateThreshold():
         #recommend limitting how many objects are used for calibration to one, maybe two
         moreObjects = ""
         while moreObjects == "":
-            moreObjects = input("Are there more objects [y/n]?: ")
+            moreObjects = input("Are there more objects? [y/n]: ")
             if moreObjects.lower() == 'n':
                 inputBoolean = 1
             elif moreObjects.lower() != 'y':
