@@ -15,6 +15,10 @@ Rachel Wendel - Kennesaw State University
 4/9/2019
 Third official logged update!
 
+*Added link to tutorial video of how the code works in
+the readme. The link can also be found here.
+https://youtu.be/A0Lc6IlNJRM  
+
 *Added in Google AI blog link as a reference.
 
 *Corrected the origin of Mobilenets as a Google project
@@ -200,6 +204,11 @@ Michigan Ann-Arbor, and the paper about SSD can be found
 at the bottom of this readme.
 
 -Things in the code- 
+
+This is a link to a YouTube video that shows a tutorial
+on how the detection program is run. 
+
+https://youtu.be/A0Lc6IlNJRM  
 
 The code is broken into a very readable file structure.
 Originally the project was one lengthy .py file that
