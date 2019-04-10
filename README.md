@@ -1,4 +1,4 @@
-# OpenCV Object Detection without Tensorflow on Raspberry Pi
+# OpenCV Object Detection without Tensorflow on Raspberry Pi for Automated Inventory Management
 
 Authors: 
 
@@ -46,7 +46,7 @@ object again.
 
 ------------------------------------------------------
 
-4/8/209
+4/8/2019
 Second official logged update!
 
 *The code now logs runtimes for calibration and object
