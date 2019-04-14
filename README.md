@@ -15,6 +15,11 @@ Rachel Wendel - Kennesaw State University
 4/13/2019
 Fourth official logged update!
 
+*Here is a linked to a short video of some of the live
+testing we did today using donuts. Also found in the
+readme below.
+https://www.youtube.com/watch?v=eluiDro3Tak
+
 *Updated how data is written to console and to data log 
 file. Makes both more readable. 
 
@@ -238,6 +243,12 @@ This is a link to a YouTube video that shows a tutorial
 on how the detection program is run. 
 
 https://youtu.be/A0Lc6IlNJRM  
+
+Here is a link to a YouTube video from some live testing
+we did on April 13th, 2019 using donuts on campus at
+Kennesaw State University.
+
+https://www.youtube.com/watch?v=eluiDro3Tak
 
 The code is broken into a very readable file structure.
 Originally the project was one lengthy .py file that
