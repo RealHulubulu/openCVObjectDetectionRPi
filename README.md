@@ -12,6 +12,29 @@ Rachel Wendel - Kennesaw State University
 
 -Updates-
 
+4/13/2019
+Fourth official logged update!
+
+*Updated how data is written to console and to data log 
+file. Makes both more readable. 
+
+*Added in a section of code specifically for detecting
+donuts. We have been running a lot of donut tests as of 
+late. There is an error where when one donut is left in
+a box, the donut can be detected as the drain for a 
+toilet or sink. I removed those objects as detectable.
+It's in line 132 to 134. Line 134 has to be un-indented
+twice if not using calibration code. It is more obvious
+when looking at the code.
+
+*Made the time between iterations a changeable object at
+the top of the objectDetection python file. It is now 
+easier to make this time interval part of the user input
+but is remaining hardcoded to avoid mistakes when we
+are running tests.
+
+------------------------------------------------------
+
 4/9/2019
 Third official logged update!
 
@@ -207,6 +230,8 @@ between UNC Chapel Hill, Zoox, Google, and University
 Michigan Ann-Arbor, and the paper about SSD can be found 
 at the bottom of this readme.
 
+######################################################
+
 -Things in the code- 
 
 This is a link to a YouTube video that shows a tutorial
@@ -290,14 +315,10 @@ with bounding boxes have labels that say what is
 detected with a rounded detection percentage next to the
 label.
 
-The code creates a log file for each run. At the top is
-the detection threshold used. Then the next line lists
-out each picture taken (imag/imageWithBoxes) followed
-by a comma then a dictionary of each object detected
-with the number detected. If the number is below the
-threshold set (objectDict[key] < 5 in code) then
-after the number of objects is a message that says
-(Running Low) in parenthesis. Next in the log is an
+The code creates a log file for each run. At the top of
+each section is the iteration. The next line lists the
+detection threshold that used. The next line lists the
+time between each image taken. Next in the log is an
 array that shows all objects detected including false
 positives. The dimensions of the array are 100 rows by 7
 columns. The rows are for each object detected. It is 
@@ -312,8 +333,15 @@ detection threshold and those objects selected for
 calibration will be used in the code. However, it is 
 important to have a log of everything that is detected.
 Below the array is the runtime for detecting all objects
-found in the array in seconds. Below this line is a
-listing of each object detected with its percentage.
+found in the array in seconds. Then the next line lists
+out each picture taken (imag/imageWithBoxes) followed
+by a comma then a dictionary of each object detected
+with the number detected. If the number is below the
+threshold set (objectDict[key] < 5 in code) then
+after the number of objects is a message that says
+(Running Low) in parenthesis. Below this line is a
+listing of each object detected with its percentage. If
+nothing is detected it prints 'Nothing Detected'.
 Each log file captures all data per run of the script.
 The file itself is created at the start of the
 for/while loop that the main code is within. Each pass
@@ -353,6 +381,14 @@ commandline shows the channel name web address, and
 a QR code for the channel name web address. Any 
 devices registered on the channel can see messages
 sent over it.
+
+The calibration info and most of the info saved to 
+the log file are printed out in console. This helps
+keep track of what is happening during script runs
+so you don't have to look at the calibration log and
+general data log files.
+
+######################################################
 
 -References / Resources for more info-
 

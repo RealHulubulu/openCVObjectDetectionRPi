@@ -21,6 +21,8 @@ setOfDepletingItems = set()
 #this is for when all items are depleted and skip over threshold amount
 setSkipsDepletingButRunsOut = set()
 
+timeBetweenDetection = 10
+
 #below loads the model using the text-graph representation for OpenCV 
 model = cv2.dnn.readNetFromTensorflow('frozen_inference_graph.pb',
                                       'ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
@@ -45,12 +47,17 @@ def objectDetection(thresholdConfidence):
             
     """THIS IS WHERE TO MODIFY CODE FOR EITHER FOR LOOP FOR TESTING OR WHILE LOOP FOR DEPLOYMENT"""
     i = 1 #this is for while loop instance to log iterations of loop
+    print("Time between detection: " + str(timeBetweenDetection))
     while True: #while loop
     #for i in range(2): #for loop
         #creates file that can be appended to so it records data each iteration
         f=open('/home/pi/openCVData/LogFiles/' + currentTimeFile + "Log.txt", "a+") 
+        #logs iteration
+        f.write("Iteration: "+str(i) + "\n")
         #logs threshold used for log file
         f.write("Threshold: " + str(runningThreshold) + "\n")
+        
+        f.write("Time between detection: " + str(timeBetweenDetection) + "\n")
         
         #this is the camera code, 5 second sleep is for balancing image before taking picture
         currentTime = datetime.now().strftime('%Y%m%d%H%M%S')
@@ -67,6 +74,10 @@ def objectDetection(thresholdConfidence):
         model.setInput(cv2.dnn.blobFromImage(image, size=(300, 300), swapRB=True))
         output = model.forward()
         #print(output[0,0,:,:].shape) #array of detected objects, max (100,7)
+        
+        print("Iteration: "+str(i))
+
+        
         #writes all detected objects to log file
         f.write("" + str(output[0,0,:,:]) + "\n")
         
@@ -108,16 +119,19 @@ def objectDetection(thresholdConfidence):
                 #this runs if no overlap occured meaning no double count or secondary false count
                 if overlap == 0:
                     #keeps track of what iteration, no iteration printed if no objects detected
-                    print("Iteration: "+str(i))
+                    #print("Iteration: "+str(i))
                     class_id = detection[1]
                     class_name=objectIdToName.id_class_name(class_id,objectIdToName.getClassNames())
-                    print(str(str(class_id) + " " + str(detection[2])  + " " + class_name))
+                    print(str(str(i) + " - " + str(class_id) + " " + str(detection[2])  + " " + class_name))
                     
                     #this ensures all detected objects are only what is calibrated against
                     #if not using calibration code, comment out next two lines
                     listFromCalibration = calibration.getOnlyThisObject() ###
                     if class_name in listFromCalibration: ###
-                        listOfDetectedObjects.append(class_name) #un-indent if not using calibration
+                        
+                        #for donut tests, removes sink and toilet from detectable listings
+                        if class_name != 'sink'or class_name != 'toilet':
+                            listOfDetectedObjects.append(class_name) #un-indent if not using calibration
                     
                     #this is the list for writing to the log file
                     listOfObjectsForLog.append(str(i) + " - " + class_name + " - " + str(detection[2]))
@@ -134,13 +148,19 @@ def objectDetection(thresholdConfidence):
                     cv2.rectangle(image, (int(box_x), int(box_y)), (int(box_width), int(box_height)), (23, 230, 210), thickness=1)
                     cv2.putText(image,class_name + " " + str(round(confidence, 3)),(int(box_x), int(box_y+.05*image_height)),cv2.FONT_HERSHEY_SIMPLEX,(1),(0, 0, 255))
         if not listOfDetectedObjects:
-            print("Iteration: " + str(i) + " ")
-            f.write("Iteration: " + str(i) + " ")
+            print(str(i) + " - Nothing Detected ")
+            #f.write("Iteration " + str(i) + " Nothing Detected \n")
         #end of timer for detection
         end = time.time()
         #prints detection time for all objects including false positives
         print("Time to detect all objects: " + str(end - start))
         #writes to file the time to detect all objects including false positives
+        
+        ##################
+        #this writes each item and its probability to the log
+        for objectAndProb in listOfObjectsForLog:
+            f.write(objectAndProb + " \n")
+        
         f.write("Time to detect all objects: " + str(end - start) + "\n")
         #saves the image with detection boxes to specified folder /ImagesWithBoxes
         cv2.imwrite('/home/pi/openCVData/ImagesWithBoxes/' + capturedImage + "withBoxes.jpeg",image)
@@ -178,15 +198,23 @@ def objectDetection(thresholdConfidence):
         if not listOfDetectedObjects and not setSkipsDepletingButRunsOut:
             notify.send("Out of: " +str(setOfDepletingItems)) #prints Out of set() if starting with nothing
             f.write(capturedImage + ' , ' + "{Out of: " + str(setOfDepletingItems) + "} \n")
+            print(capturedImage + ' , ' + "{Out of: " + str(setOfDepletingItems) + "}")
         elif not listOfDetectedObjects and setSkipsDepletingButRunsOut: ###
             notify.send("Out of: " +str(setSkipsDepletingButRunsOut)) #prints Out of set() if starting with nothing
             f.write(capturedImage + ' , ' + "{Out of: " + str(setSkipsDepletingButRunsOut) + "} \n")
+            print(capturedImage + ' , ' + "{Out of: " + str(setSkipsDepletingButRunsOut) + "}")
         else:
             notify.send(json.dumps(notifySendString))
             f.write(capturedImage + ' , ' + json.dumps(notifySendString) + " \n")
+            print(capturedImage + ' , ' + json.dumps(notifySendString))
+        
+        if not listOfDetectedObjects:
+            #print("Iteration " + str(i) + " Nothing Detected ")
+            f.write(str(i) + " - Nothing Detected \n")
+        
         #this writes each item and its probability to the log
-        for objectAndProb in listOfObjectsForLog:
-            f.write(objectAndProb + " \n")
+        #for objectAndProb in listOfObjectsForLog:
+            #f.write(objectAndProb + " \n")
         #closes writing to file for this iteration
         f.close()
     
@@ -194,6 +222,6 @@ def objectDetection(thresholdConfidence):
         #cv2.imwrite('/home/pi/openCVData/ImagesWithBoxes/' + capturedImage + "withBoxes.jpeg",image)
         
         #sleeps between taking pictures, measured in seconds
-        sleep(10)
+        sleep(timeBetweenDetection)
         i+=1 #this increments iteration for while loop
        
