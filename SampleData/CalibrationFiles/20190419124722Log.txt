@@ -1,0 +1,13 @@
+Calibrate Image: /home/pi/openCVData/CalibrationFiles/20190419124722ForCalibration.jpeg
+Object used for calibration: person
+Number of person: 1
+Calibrating each object...
+Iteration: 1
+Threshold too high for object. Threshold -.05
+Iteration: 2
+Object detected
+1.0 0.8918882 person
+Calibration has correct count of person
+Calibration for person has threshold: 0.85
+Final threshold (65% of lowest object threshold): 0.5525
+Time to do calibration: 0.01022648811340332
