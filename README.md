@@ -12,6 +12,42 @@ Rachel Wendel - Kennesaw State University
 
 -Updates-
 
+4/19/2019
+Fifth official logged update!
+
+*The project is being presented at C-Day at Kennesaw
+State University on April 25th, 2019. This is a poster
+competition where both undergrad and grad students 
+submit projects and research to be judged. We hope to
+dominate this competition. Find our poster added to
+the repo.
+
+*The current objectDetection.py file still has toilets
+and sinks removed as detected objects. They are still 
+listed in the list of detectable objects. The plan is
+to keep them removed as counting sinks and toilets is
+outside our general use scope.
+
+*Updated the file structure of the actual repository.
+Now there is a SampleData folder that has all of the
+data from a sample test in the same file folder format
+as the actual test data. There is also an included 
+console output file to show what prints to console. In
+the console output file it shows how user input errors
+are handled for calibration and at the start of the
+objectDetection portion. If you do not know what can 
+be detected (which is unlikely) or do not know how to
+spell the object you wish to calibrate/detect, wrong
+input for object name prompts if you wish to print all
+of the detectable objects.
+
+*Old sample files have been removed as they do not 
+reflect the current updates made to their formatting.
+The new format and sample files can be found in the 
+SampleData folder.
+
+------------------------------------------------------
+
 4/13/2019
 Fourth official logged update!
 
