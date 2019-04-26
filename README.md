@@ -12,6 +12,30 @@ Rachel Wendel - Kennesaw State University
 
 -Updates-
 
+4/25/2019
+Sixth official logged update!
+
+*Presented the project at C-Day at KSU. We did not win
+the poster competition. However, we did run a test
+from 5:28pm to 7:27pm on two dozen glazed donuts. All
+data from this test is in the new CDayDataSpring2019
+folder. The extracted data is also in the foloder as
+the test had 10 sec intervals and ran for 382 
+iterations. For this test, we had 100% accuracy.
+
+*Got a lot of good feedback from C-Day on changes to 
+implement in the project. Aside from exploring using
+motion detection for counting objects, using a Pi
+Zero will be added to future directions. The goal 
+here is to make object detection for the price of a 
+meal.
+
+*Progress on development will take a short break as
+the semester is wrapping up. It will continue over
+the summer and for the rest of the year. 
+
+------------------------------------------------------
+
 4/19/2019
 Fifth official logged update!
 

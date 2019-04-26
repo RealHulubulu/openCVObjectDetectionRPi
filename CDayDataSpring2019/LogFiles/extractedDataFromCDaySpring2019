@@ -1,0 +1,256 @@
+Read outs only from when donut counts changed. Test ran from 5:28pm to 7:27pm on April 25, 2019
+
+Iteration: 1
+1 - donut - 0.99697924 
+1 - donut - 0.9914165 
+1 - donut - 0.98331416 
+1 - donut - 0.97681934 
+1 - donut - 0.9733277 
+1 - donut - 0.97086424 
+1 - donut - 0.96170926 
+1 - donut - 0.9483415 
+1 - donut - 0.9049913 
+1 - donut - 0.7303053 
+1 - donut - 0.66644275 
+1 - donut - 0.52220786 
+Time to detect all objects: 0.03734326362609863
+capturedImage20190425172830 , {"donut": "12"} 
+
+Iteration: 9
+9 - donut - 0.9911607 
+9 - donut - 0.9881087 
+9 - donut - 0.9794377 
+9 - donut - 0.9770802 
+9 - donut - 0.9744538 
+9 - donut - 0.95351917 
+9 - donut - 0.9365025 
+9 - donut - 0.9088792 
+9 - donut - 0.6327206 
+9 - donut - 0.6091893 
+9 - donut - 0.6069103 
+Time to detect all objects: 0.04521489143371582
+capturedImage20190425173100 , {"donut": "11"} 
+
+Iteration: 29
+29 - donut - 0.98842794 
+29 - donut - 0.97483283 
+29 - donut - 0.9684324 
+29 - donut - 0.9673699 
+29 - donut - 0.96490186 
+29 - donut - 0.9475906 
+29 - donut - 0.83841395 
+29 - donut - 0.6892766 
+29 - donut - 0.6501972 
+29 - donut - 0.59917086 
+Time to detect all objects: 0.03992795944213867
+capturedImage20190425173716 , {"donut": "10"} 
+
+Iteration: 30
+30 - donut - 0.9880676 
+30 - donut - 0.9803028 
+30 - donut - 0.9703954 
+30 - donut - 0.9598813 
+30 - donut - 0.92679 
+30 - donut - 0.9021094 
+30 - donut - 0.8171527 
+30 - donut - 0.71199405 
+30 - donut - 0.42380214 
+Time to detect all objects: 0.02986621856689453
+capturedImage20190425173735 , {"donut": "9"} 
+
+Iteration: 34
+34 - donut - 0.9943362 
+34 - donut - 0.9860584 
+34 - donut - 0.98080486 
+34 - donut - 0.97744274 
+34 - donut - 0.93162185 
+34 - donut - 0.90585786 
+34 - donut - 0.87730336 
+34 - donut - 0.6764506 
+Time to detect all objects: 0.026076316833496094
+capturedImage20190425173850 , {"donut": "8"} 
+
+Iteration: 74
+74 - donut - 0.9920516 
+74 - donut - 0.9895726 
+74 - donut - 0.96385354 
+74 - donut - 0.9165164 
+74 - donut - 0.8870538 
+74 - donut - 0.8834719 
+74 - donut - 0.81931156 
+Time to detect all objects: 0.028656005859375
+capturedImage20190425175122 , {"donut": "7"} 
+
+Iteration: 89
+89 - donut - 0.9917326 
+89 - donut - 0.9888093 
+89 - donut - 0.9546069 
+89 - donut - 0.93796736 
+89 - donut - 0.9083186 
+89 - donut - 0.7052897 
+Time to detect all objects: 0.020067453384399414
+capturedImage20190425175603 , {"donut": "6"} 
+
+Iteration: 92
+92 - donut - 0.9963321 
+92 - donut - 0.9707233 
+92 - donut - 0.9317228 
+92 - donut - 0.85344654 
+92 - donut - 0.7658412 
+Time to detect all objects: 0.0207364559173584
+capturedImage20190425175700 , {"donut": "5"} 
+
+Iteration: 142
+142 - donut - 0.97851163 
+142 - donut - 0.9740891 
+142 - donut - 0.9726307 
+142 - donut - 0.8094364 
+142 - dining table - 0.28287926 
+Time to detect all objects: 0.017529964447021484
+capturedImage20190425181239 , {"donut": "4 (Running Low)"} 
+
+Iteration: 163
+163 - bowl - 0.2725374 
+163 - donut - 0.97774667 
+163 - donut - 0.9767843 
+163 - donut - 0.9095708 
+Time to detect all objects: 0.01683187484741211
+capturedImage20190425181913 , {"donut": "3 (Running Low)"} 
+
+Iteration: 186
+186 - donut - 0.9650159 
+186 - donut - 0.9440851 
+186 - refrigerator - 0.33491918 
+Time to detect all objects: 0.013522148132324219
+capturedImage20190425182629 , {"donut": "2 (Running Low)"} 
+
+Iteration: 189
+189 - donut - 0.95761806 
+189 - microwave - 0.24781655 
+Time to detect all objects: 0.006960630416870117
+capturedImage20190425182726 , {"donut": "1 (Running Low)"} 
+
+Iteration: 199
+199 - car - 0.22327253 
+199 - chair - 0.47079825 
+Time to detect all objects: 0.007817983627319336
+capturedImage20190425183034 , {Out of: {'donut'}} 
+199 - Nothing Detected 
+
+Iteration: 200
+200 - donut - 0.99363375 
+200 - donut - 0.98295677 
+200 - donut - 0.9786606 
+200 - donut - 0.9524279 
+200 - donut - 0.94102657 
+200 - donut - 0.9204225 
+200 - donut - 0.90643966 
+200 - donut - 0.90334463 
+200 - donut - 0.87904835 
+200 - donut - 0.8517812 
+200 - donut - 0.8191473 
+200 - donut - 0.696353 
+Time to detect all objects: 0.048427581787109375
+capturedImage20190425183053 , {"donut": "12"} 
+
+Iteration: 221
+221 - donut - 0.9897385 
+221 - donut - 0.9726509 
+221 - donut - 0.95975673 
+221 - donut - 0.9595565 
+221 - donut - 0.9304296 
+221 - donut - 0.910284 
+221 - donut - 0.90969515 
+221 - donut - 0.9048371 
+221 - donut - 0.8844753 
+221 - donut - 0.8403406 
+221 - donut - 0.7438056 
+Time to detect all objects: 0.04244184494018555
+capturedImage20190425183729 , {"donut": "11"} 
+
+Iteration: 237
+237 - knife - 0.31321055 
+237 - donut - 0.9937359 
+237 - donut - 0.9774646 
+237 - donut - 0.9761185 
+237 - donut - 0.9579922 
+237 - donut - 0.9578557 
+237 - donut - 0.945033 
+237 - donut - 0.9111854 
+237 - donut - 0.893345 
+237 - donut - 0.8871526 
+237 - donut - 0.7024986 
+Time to detect all objects: 0.0452728271484375
+capturedImage20190425184230 , {"donut": "10"} 
+
+Iteration: 242
+242 - knife - 0.31202686 
+242 - donut - 0.9876067 
+242 - donut - 0.98605424 
+242 - donut - 0.98455596 
+242 - donut - 0.98435736 
+242 - donut - 0.9779986 
+242 - donut - 0.9715645 
+242 - donut - 0.9712813 
+242 - donut - 0.9698177 
+Time to detect all objects: 0.028829574584960938
+capturedImage20190425184405 , {"donut": "8"} 
+
+Iteration: 265
+265 - knife - 0.27290538 
+265 - donut - 0.9910184 
+265 - donut - 0.98924005 
+265 - donut - 0.9819583 
+265 - donut - 0.9715195 
+265 - donut - 0.9668091 
+265 - donut - 0.95561737 
+265 - donut - 0.9379337 
+Time to detect all objects: 0.026323556900024414
+capturedImage20190425185117 , {"donut": "7"} 
+
+Iteration: 266
+266 - donut - 0.9768 
+266 - donut - 0.96694726 
+266 - donut - 0.9582057 
+266 - donut - 0.94940895 
+266 - donut - 0.8668308 
+266 - chair - 0.26595798 
+Time to detect all objects: 0.02318596839904785
+capturedImage20190425185136 , {"donut": "5"}
+
+Iteration: 278
+278 - donut - 0.9786694 
+278 - donut - 0.9674993 
+278 - donut - 0.94871473 
+278 - donut - 0.94824225 
+278 - chair - 0.21012019 
+Time to detect all objects: 0.016903400421142578
+capturedImage20190425185522 , {"donut": "4 (Running Low)"}
+
+Iteration: 280
+280 - knife - 0.22988786 
+280 - donut - 0.97757417 
+280 - donut - 0.96689135 
+280 - donut - 0.8928698 
+Time to detect all objects: 0.01577019691467285
+capturedImage20190425185559 , {"donut": "3 (Running Low)"} 
+
+Iteration: 292
+292 - knife - 0.22565879 
+292 - donut - 0.97169715 
+292 - donut - 0.9659572 
+Time to detect all objects: 0.007891654968261719
+capturedImage20190425185946 , {"donut": "2 (Running Low)"} 
+
+Iteration: 309
+309 - donut - 0.8828168 
+309 - tv - 0.24762413 
+Time to detect all objects: 0.006984710693359375
+capturedImage20190425190505 , {"donut": "1 (Running Low)"} 
+
+Iteration: 382
+382 - donut - 0.9201753 
+382 - mouse - 0.49279478 
+382 - book - 0.28463662 
+Time to detect all objects: 0.013013601303100586
+capturedImage20190425192757 , {"donut": "1 (Running Low)"} 

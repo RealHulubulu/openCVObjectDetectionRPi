@@ -1,0 +1,163 @@
+Calibrate Image: /home/pi/openCVData/CalibrationFiles/20190425172746ForCalibration.jpeg
+Object used for calibration: donut
+Number of donut: 12
+Calibrating each object...
+Iteration: 1
+Object detected
+60.0 0.9975737 donut
+Object detected
+60.0 0.99351317 donut
+Object detected
+60.0 0.98720247 donut
+Object detected
+60.0 0.98408556 donut
+Object detected
+60.0 0.9826936 donut
+Object detected
+60.0 0.97809064 donut
+Object detected
+60.0 0.9703081 donut
+Object detected
+60.0 0.9656632 donut
+Object detected
+60.0 0.92384887 donut
+Threshold too high for donut. Threshold -.05
+Iteration: 2
+Object detected
+60.0 0.9975737 donut
+Object detected
+60.0 0.99351317 donut
+Object detected
+60.0 0.98720247 donut
+Object detected
+60.0 0.98408556 donut
+Object detected
+60.0 0.9826936 donut
+Object detected
+60.0 0.97809064 donut
+Object detected
+60.0 0.9703081 donut
+Object detected
+60.0 0.9656632 donut
+Object detected
+60.0 0.92384887 donut
+Threshold too high for donut. Threshold -.05
+Iteration: 3
+Object detected
+60.0 0.9975737 donut
+Object detected
+60.0 0.99351317 donut
+Object detected
+60.0 0.98720247 donut
+Object detected
+60.0 0.98408556 donut
+Object detected
+60.0 0.9826936 donut
+Object detected
+60.0 0.97809064 donut
+Object detected
+60.0 0.9703081 donut
+Object detected
+60.0 0.9656632 donut
+Object detected
+60.0 0.92384887 donut
+Threshold too high for donut. Threshold -.05
+Iteration: 4
+Object detected
+60.0 0.9975737 donut
+Object detected
+60.0 0.99351317 donut
+Object detected
+60.0 0.98720247 donut
+Object detected
+60.0 0.98408556 donut
+Object detected
+60.0 0.9826936 donut
+Object detected
+60.0 0.97809064 donut
+Object detected
+60.0 0.9703081 donut
+Object detected
+60.0 0.9656632 donut
+Object detected
+60.0 0.92384887 donut
+Object detected
+60.0 0.76403654 donut
+Threshold too high for donut. Threshold -.05
+Iteration: 5
+Object detected
+60.0 0.9975737 donut
+Object detected
+60.0 0.99351317 donut
+Object detected
+60.0 0.98720247 donut
+Object detected
+60.0 0.98408556 donut
+Object detected
+60.0 0.9826936 donut
+Object detected
+60.0 0.97809064 donut
+Object detected
+60.0 0.9703081 donut
+Object detected
+60.0 0.9656632 donut
+Object detected
+60.0 0.92384887 donut
+Object detected
+60.0 0.76403654 donut
+Object detected
+60.0 0.7215268 donut
+Threshold too high for donut. Threshold -.05
+Iteration: 6
+Object detected
+60.0 0.9975737 donut
+Object detected
+60.0 0.99351317 donut
+Object detected
+60.0 0.98720247 donut
+Object detected
+60.0 0.98408556 donut
+Object detected
+60.0 0.9826936 donut
+Object detected
+60.0 0.97809064 donut
+Object detected
+60.0 0.9703081 donut
+Object detected
+60.0 0.9656632 donut
+Object detected
+60.0 0.92384887 donut
+Object detected
+60.0 0.76403654 donut
+Object detected
+60.0 0.7215268 donut
+Threshold too high for donut. Threshold -.05
+Iteration: 7
+Object detected
+60.0 0.9975737 donut
+Object detected
+60.0 0.99351317 donut
+Object detected
+60.0 0.98720247 donut
+Object detected
+60.0 0.98408556 donut
+Object detected
+60.0 0.9826936 donut
+Object detected
+60.0 0.97809064 donut
+Object detected
+60.0 0.9703081 donut
+Object detected
+60.0 0.9656632 donut
+Object detected
+60.0 0.92384887 donut
+Object detected
+60.0 0.76403654 donut
+Object detected
+60.0 0.7215268 donut
+Object detected
+60.0 0.63028556 donut
+Calibration has correct count of donut
+Calibration for donut has threshold: 0.5999999999999998
+Final threshold (65% of lowest object threshold): 0.38999999999999985
+Time to do calibration: 0.15108585357666016
